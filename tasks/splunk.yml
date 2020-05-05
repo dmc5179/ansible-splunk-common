@@ -10,33 +10,21 @@
     comment: "Splunk service user"
     shell: "/usr/sbin/nologin"
     groups: "{{ splunk_os_group }}"
-    createhome: yes
+    createhome: true
 
 - name: make /opt writetable by splunk
   file:
     path: "/opt"
     mode: 0777
 
-- name: check for existing splunk version
-  block:
-    - shell: dpkg-query --showformat='${Version}' --show splunk
-      changed_when: False
-      ignore_errors: yes
-      register: dpkg_result
-      when: ansible_os_family == "Debian"
-    - shell: yum list installed | grep splunk | awk '{print $2}' | awk -F'-' '{print $1}'
-      changed_when: False
-      ignore_errors: yes
-      register: yum_result
-      when: ansible_os_family == "RedHat"
+- name: Gather package facts
+  package_facts:
+    manager: auto
 
 - name: splunk upgrade tasks
   include_tasks: splunk-upgrade.yml
   when:
-    - (ansible_os_family == "Debian") and ('splunk_version != dpkg_result.stdout')
-    - (ansible_os_family == "Debian") and ('dpkg_result.rc != 1')
-    - (ansible_os_family == "RedHat") and ('splunk_version != yum_result.stdout')
-    - (ansible_os_family == "RedHat") and ('dpkg_result.rc != 1')
+    ('splunk' in ansible_facts.packages)
 
 - name: download splunk package file
   block:
@@ -56,7 +44,7 @@
     - apt:
         deb: "/tmp/{{ splunk_deb_url | basename }}"
         state: present
-        force: yes
+        force: true
       when: (ansible_os_family == "Debian") and
             (skip_upgrade is not defined)
       register: splunk_deb_installed
@@ -75,9 +63,6 @@
         name: splunk
         selection: hold
       when: ansible_os_family == "Debian"
-    # - dpkg_selections:
-    #     name: splunk
-    #     selection: hold
 
 - name: set splunk.secret file
   template:
@@ -104,7 +89,7 @@
   file:
     path: /opt/splunk/etc/.ui_login
     state: touch
-  become: yes
+  become: true
   become_user: "{{ splunk_os_user }}"
   when: splunk_deb_installed.changed or
         splunk_rpm_installed.changed
