@@ -7,7 +7,7 @@
   file:
     path: /opt/splunk/etc/system/local/server.conf
     state: touch
-  become: yes
+  become: true
   become_user: "{{ splunk_os_user }}"
   when: server_conf_path.stat.exists == False
 
@@ -28,7 +28,7 @@
   file:
     path: /opt/splunk/etc/system/local/inputs.conf
     state: touch
-  become: yes
+  become: true
   become_user: "{{ splunk_os_user }}"
   when: inputs_conf_path.stat.exists == False
 
@@ -50,7 +50,7 @@
   file:
     path: /opt/splunk/etc/system/local/web.conf
     state: touch
-  become: yes
+  become: true
   become_user: "{{ splunk_os_user }}"
   when: web_conf_path.stat.exists == False
 

@@ -1,6 +1,7 @@
+---
 galaxy_info:
   role_name: splunk-common
-  author: Andrew Mackett
+  author: Dan Clark
   description: Installation and basic configuration of Splunk Enterprise
 
   license: MIT
@@ -8,11 +9,11 @@ galaxy_info:
   min_ansible_version: 2.4
 
   platforms:
-  - name: Ubuntu
-    versions:
-      - trusty
-      - xenial
-      - bionic
+    - name: Ubuntu
+      versions:
+        - trusty
+        - xenial
+        - bionic
 
   galaxy_tags:
     - splunk

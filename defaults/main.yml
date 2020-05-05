@@ -18,9 +18,9 @@ splunk_common_splunk_key: 'key.pem'
 splunk_common_splunk_cert: 'certificate.pem'
 
 # web.conf settings
-splunk_common_enable_ssl: True
+splunk_common_enable_ssl: true
 splunk_common_http_port: 8443
-splunk_common_allowSslRenegotiation: False
+splunk_common_allowSslRenegotiation: false
 
 # Splunk credentials and secrets
 ### Do not use these vaules in your systems! ###
@@ -33,7 +33,7 @@ splunk_secret: 'SDWQAIOvoISFDrb2EQaFVDDJ9GxLY0iacljP8ofte/DcWR7qMiGCUEwFc9lDdreO
 splunk_common_admin_passwd_hash: "{{ splunk_common_admin_passwd |string |password_hash('sha512', splunk_common_admin_salt |string) }}"
 
 # LDAP settings
-enable_ldap: False
+enable_ldap: false
 auth_settings_name: "ActiveDirectory"
 user_base_dn: ""
 group_base_dn: ""

@@ -1,7 +1,7 @@
 ---
 - name: accept license and start splunk
   shell: /opt/splunk/bin/splunk start --accept-license --answer-yes
-  become: yes
+  become: true
   become_user: "{{ splunk_os_user }}"
 
 - name: enable boot-start
