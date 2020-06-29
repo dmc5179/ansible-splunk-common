@@ -19,8 +19,8 @@ Role Variables
 
 |Variable                    |Default                      |
 |----------------------------|-----------------------------|
-|`splunk_version`            |7.1.3                        |
-|`splunk_build`              |51d9cac7b837                 |
+|`splunk_version`            |8.0.4.1                      |
+|`splunk_build`              |ab7a85abaa98                 |
 |`splunk_common_enable_ssl`  |True                         |
 |`splunk_common_http_port`   |8443                         |
 |`splunk_common_admin_user`  |admin                        |
