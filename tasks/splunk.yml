@@ -26,43 +26,10 @@
   when:
     ('splunk' in ansible_facts.packages)
 
-- name: download splunk package file
-  block:
-    - get_url:
-        url: "{{ splunk_deb_url }}"
-        dest: "/tmp/{{ splunk_deb_url | basename }}"
-        checksum: "md5:{{ (lookup('url', splunk_deb_url + '.md5')).split(' ')[-1] }}"
-      when: ansible_os_family == "Debian"
-    - get_url:
-        url: "{{ splunk_rpm_url }}"
-        dest: "/tmp/{{ splunk_rpm_url | basename }}"
-        checksum: "md5:{{ (lookup('url', splunk_rpm_url + '.md5')).split(' ')[-1] }}"
-      when: ansible_os_family == "RedHat"
-
-- name: install splunk from package
-  block:
-    - apt:
-        deb: "/tmp/{{ splunk_deb_url | basename }}"
-        state: present
-        force: true
-      when: (ansible_os_family == "Debian") and
-            (skip_upgrade is not defined)
-      register: splunk_deb_installed
-      notify: restart splunk
-    - yum:
-        name: "/tmp/{{ splunk_rpm_url | basename }}"
-        state: present
-      when: (ansible_os_family == "RedHat") and
-            (skip_upgrade is not defined)
-      register: splunk_rpm_installed
-      notify: restart splunk
-
-- name: pin splunk version
-  block:
-    - dpkg_selections:
-        name: splunk
-        selection: hold
-      when: ansible_os_family == "Debian"
+- name: Install splunk package
+  dnf:
+    name: "{{ splunk_rpm_url }}"
+    state: present
 
 - name: set splunk.secret file
   template:
@@ -72,13 +39,6 @@
     group: "{{ splunk_os_group }}"
     mode: 0400
   notify: restart splunk
-
-- name: upstart setup
-  include_tasks: upstart.yml
-  when:
-    - ansible_service_mgr == "upstart"
-    - splunk_deb_installed.changed
-    - splunk_rpm_installed.changed
 
 - name: systemd setup
   include_tasks: systemd.yml
@@ -91,5 +51,4 @@
     state: touch
   become: true
   become_user: "{{ splunk_os_user }}"
-  when: splunk_deb_installed.changed or
-        splunk_rpm_installed.changed
+  when: splunk_rpm_installed.changed

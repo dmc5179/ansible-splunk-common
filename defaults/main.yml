@@ -2,7 +2,6 @@
 # Version info
 splunk_version: 8.0.4.1
 splunk_build: ab7a85abaa98
-splunk_deb_url: "https://download.splunk.com/products/splunk/releases/{{splunk_version}}/linux/splunk-{{splunk_version}}-{{splunk_build}}-linux-2.6-amd64.deb"
 splunk_rpm_url: "https://download.splunk.com/products/splunk/releases/{{splunk_version}}/linux/splunk-{{splunk_version}}-{{splunk_build}}-linux-2.6-x86_64.rpm"
 
 # Splunk service options

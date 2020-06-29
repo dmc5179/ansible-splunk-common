@@ -1,7 +1,7 @@
 splunk-common
 =========
 
-[![Build Status](https://travis-ci.org/andrewmackett/ansible-splunk-common.svg?branch=master)](https://travis-ci.org/andrewmackett/ansible-splunk-common)
+[![Build Status](https://travis-ci.org/dmc5179/ansible-splunk-common.svg?branch=master)](https://travis-ci.org/dmc5179/ansible-splunk-common)
 
 Installation and basic configuration of [Splunk Enterprise](https://www.splunk.com/en_us/download/splunk-enterprise.html).
 
@@ -55,7 +55,7 @@ Example playbook:
 
     - hosts: servers
       roles:
-         - { role: andrewmackett.splunk_common, splunk_version: 7.1.3, splunk_build: 51d9cac7b837 }
+         - { role: dmc5179.splunk_common, splunk_version: 7.1.3, splunk_build: 51d9cac7b837 }
 
 There's also a Vagrantfile that you can use to start up a local test server.
 
@@ -67,4 +67,4 @@ MIT
 Author Information
 ------------------
 
-https://github.com/andrewmackett
+https://github.com/dmc5179
