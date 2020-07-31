@@ -15,10 +15,14 @@
     owner: "{{ splunk_os_user }}"
     group: "{{ splunk_os_group }}"
     mode: 0600
-  notify: restart splunk
 
 - name: create certs folder
-  file: path={{ splunk_common_certs_folder }} owner={{ splunk_os_user }} group={{ splunk_os_group }} mode=0700 state=directory
+  file:
+    path: '{{ splunk_common_certs_folder }}'
+    owner: '{{ splunk_os_user }}'
+    group: '{{ splunk_os_group }}'
+    mode: 0700
+    state: directory
 
 - name: Generate an OpenSSL private key
   openssl_privatekey:
@@ -43,7 +47,12 @@
   when: splunk_common_enable_ssl
 
 - name: splunk ownership of certs
-  file: path={{ item }} owner={{ splunk_os_user }} group={{ splunk_os_group }} mode=0700 state=file
+  file:
+    path: '{{ item }}'
+    owner: '{{ splunk_os_user }}'
+    group: '{{ splunk_os_group }}'
+    mode: 0700
+    state: file
   with_items:
     - "{{ splunk_common_certs_folder }}/{{ splunk_common_splunk_key }}"
     - "{{ splunk_common_certs_folder }}/splunk.csr"

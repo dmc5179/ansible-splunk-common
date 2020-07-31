@@ -1,6 +1,8 @@
 ---
-- name: restart splunk
-  service: name=splunk state=restarted
 
-- name: systemctl daemon-reload
-  systemd: daemon_reload=yes
+- name: restart splunk
+  systemd:
+    name: Splunkd
+    state: restarted
+    enabled: true
+    daemon_reload: true

@@ -30,6 +30,7 @@
   dnf:
     name: "{{ splunk_rpm_url }}"
     state: present
+  register: splunk_rpm_installed
 
 - name: set splunk.secret file
   template:

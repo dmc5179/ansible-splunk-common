@@ -1,6 +1,7 @@
 ---
 - name: checking if server.conf exists
-  stat: path=/opt/splunk/etc/system/local/server.conf
+  stat:
+    path: /opt/splunk/etc/system/local/server.conf
   register: server_conf_path
 
 - name: touch to ensure server.conf exists
@@ -21,7 +22,8 @@
   notify: restart splunk
 
 - name: checking if inputs.conf exists
-  stat: path=/opt/splunk/etc/system/local/inputs.conf
+  stat:
+    path: /opt/splunk/etc/system/local/inputs.conf
   register: inputs_conf_path
 
 - name: touch to ensure inputs.conf exists
@@ -41,9 +43,9 @@
     value: "{{ ansible_hostname }}"
   notify: restart splunk
 
-
 - name: checking if web.conf exists
-  stat: path=/opt/splunk/etc/system/local/web.conf
+  stat:
+    path: /opt/splunk/etc/system/local/web.conf
   register: web_conf_path
 
 - name: touch to ensure web.conf exists
@@ -98,7 +100,6 @@
     option: allowSslRenegotiation
     value: "{{ splunk_common_allowSslRenegotiation }}"
   notify: restart splunk
-
 
 - name: Configure splunk-launch.conf
   template:

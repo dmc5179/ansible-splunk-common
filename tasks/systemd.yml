@@ -1,12 +1,22 @@
 ---
-- name: splunk.service systemd unit file
-  template:
-    src: splunk.service.j2
-    dest: /etc/systemd/system/splunk.service
-    mode: 0664
-  notify: systemctl daemon-reload
+#- name: splunk.service systemd unit file
+#  template:
+#    src: splunk.service.j2
+#    dest: /etc/systemd/system/splunk.service
+#    mode: 0664
+#  notify: systemctl daemon-reload
 
-- name: enable splunk.service
-  systemd:
-    name: splunk.service
-    enabled: true
+#- name: enable splunk.service
+#  systemd:
+#    name: splunk.service
+#    enabled: true
+
+- name: systemd | Disable splunk boot-start
+  become: true
+  shell:
+    cmd: /opt/splunk/bin/splunk disable boot-start
+
+- name: systemd | Enable splunk as systemd service
+  become: true
+  shell:
+    cmd: /opt/splunk/bin/splunk enable boot-start -systemd-managed 1 -user splunk

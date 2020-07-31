@@ -18,7 +18,7 @@ splunk_common_splunk_cert: 'certificate.pem'
 
 # web.conf settings
 splunk_common_enable_ssl: true
-splunk_common_http_port: 8443
+splunk_common_http_port: 443
 splunk_common_allowSslRenegotiation: false
 
 # Splunk credentials and secrets
