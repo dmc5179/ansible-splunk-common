@@ -8,11 +8,11 @@ splunk_rpm_url: "https://download.splunk.com/products/splunk/releases/{{splunk_v
 splunk_home: '/opt/splunk'
 splunk_server_name: Splunkd
 splunk_web_name: splunkweb
-splunk_os_user: splunk
-splunk_os_group: splunk
+#splunk_os_user: splunk
+#splunk_os_group: splunk
 
 # Splunk certs folder
-splunk_common_certs_folder: '/opt/splunk/certs'
+#splunk_common_certs_folder: '/opt/splunk/certs'
 splunk_common_splunk_key: 'key.pem'
 splunk_common_splunk_cert: 'certificate.pem'
 
@@ -55,6 +55,7 @@ splunk:
         httpinput: /opt/splunk/etc/apps/splunk_httpinput
         idxc: /opt/splunk/etc/master-apps
         shc: /opt/splunk/etc/shcluster/apps
+        certs: /opt/splunk/certs
     enable_service: false
     exec: /opt/splunk/bin/splunk
     group: splunk

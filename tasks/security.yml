@@ -12,49 +12,49 @@
   template:
     src: passwd.j2
     dest: /opt/splunk/etc/passwd
-    owner: "{{ splunk_os_user }}"
-    group: "{{ splunk_os_group }}"
+    owner: "{{ splunk.user }}"
+    group: "{{ splunk.group }}"
     mode: 0600
 
 - name: create certs folder
   file:
-    path: '{{ splunk_common_certs_folder }}'
-    owner: '{{ splunk_os_user }}'
-    group: '{{ splunk_os_group }}'
+    path: '{{ splunk.app_paths.certs }}'
+    owner: '{{ splunk.user }}'
+    group: '{{ splunk.group }}'
     mode: 0700
     state: directory
 
 - name: Generate an OpenSSL private key
   openssl_privatekey:
-    path: "{{ splunk_common_certs_folder }}/{{ splunk_common_splunk_key }}"
+    path: "{{ splunk.app_paths.certs }}/{{ splunk_common_splunk_key }}"
     type: RSA
     size: 2048
   when: splunk_common_enable_ssl
 
 - name: Generate an OpenSSL CSR
   openssl_csr:
-    path: "{{ splunk_common_certs_folder }}/splunk.csr"
-    privatekey_path: "{{ splunk_common_certs_folder }}/{{ splunk_common_splunk_key }}"
+    path: "{{ splunk.app_paths.certs }}/splunk.csr"
+    privatekey_path: "{{ splunk.app_paths.certs }}/{{ splunk_common_splunk_key }}"
     common_name: "{{ ansible_hostname }}"
   when: splunk_common_enable_ssl
 
 - name: Generate a Self Signed OpenSSL certificate
   openssl_certificate:
-    path: "{{ splunk_common_certs_folder }}/{{ splunk_common_splunk_cert }}"
-    privatekey_path: "{{ splunk_common_certs_folder }}/{{ splunk_common_splunk_key }}"
-    csr_path: "{{ splunk_common_certs_folder }}/splunk.csr"
+    path: "{{ splunk.app_paths.certs }}/{{ splunk_common_splunk_cert }}"
+    privatekey_path: "{{ splunk.app_paths.certs }}/{{ splunk_common_splunk_key }}"
+    csr_path: "{{ splunk.app_paths.certs }}/splunk.csr"
     provider: selfsigned
   when: splunk_common_enable_ssl
 
 - name: splunk ownership of certs
   file:
     path: '{{ item }}'
-    owner: '{{ splunk_os_user }}'
-    group: '{{ splunk_os_group }}'
+    owner: '{{ splunk.user }}'
+    group: '{{ splunk.group }}'
     mode: 0700
     state: file
   with_items:
-    - "{{ splunk_common_certs_folder }}/{{ splunk_common_splunk_key }}"
-    - "{{ splunk_common_certs_folder }}/splunk.csr"
-    - "{{ splunk_common_certs_folder }}/{{ splunk_common_splunk_cert }}"
+    - "{{ splunk.app_paths.certs }}/{{ splunk_common_splunk_key }}"
+    - "{{ splunk.app_paths.certs }}/splunk.csr"
+    - "{{ splunk.app_paths.certs }}/{{ splunk_common_splunk_cert }}"
   when: splunk_common_enable_ssl
