@@ -9,5 +9,7 @@
 - include_tasks: ldap.yml
   when: enable_ldap
 
+- include_tasks: set_as_hec_receiver.yml
+
 - name: Finished
   debug: msg="Splunk web interface at https://{{ inventory_hostname }}:{{ splunk_common_http_port }}"
